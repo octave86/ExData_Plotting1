@@ -1,0 +1,25 @@
+plot3 <- function() {
+     ## Plot 3
+     
+     #Read the required data
+     
+     my.data <- read.table("household_power_consumption.txt",sep=";",na.strings="?",
+                           nrows=2880,skip=66637,
+                           col.names=c("Date","Time","Global_active_power",
+                                       "Global_reactive_power","Voltage",
+                                       "Global_intensity","Sub_metering_1",
+                                       "Sub_metering_2","Sub_metering_3"))
+     x<-paste(as.Date(my.data[[1]],"%d/%m/%Y"),my.data[[2]])
+     y<-strptime(x, "%Y-%m-%d %H:%M:%S")
+     
+     ##Open the PNG device
+     png(filename="Plot3.png",width=480,height=480,units="px")
+     
+     ##Plot the Enery sub metering against time
+     plot(y,my.data$Sub_metering_1,type="n",xlab="",ylab="Energy sub metering")
+     points(y,my.data$Sub_metering_1,col="black",type="l")
+     points(y,my.data$Sub_metering_2,col="red",type="l")
+     points(y,my.data$Sub_metering_3,col="blue",type="l")
+     legend("topright",legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lty=c(1,1,1),col=c("black","red","blue"))
+     dev.off()     
+}
